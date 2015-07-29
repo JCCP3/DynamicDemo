@@ -238,6 +238,11 @@
     return image;
 }
 
-
+//简单版本计算文本大小
++ (CGSize)simpleSizeWithStr:(NSString *)str font:(UIFont *)font
+{
+    CGSize textSize = [str sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey: NSFontAttributeName]];
+    return textSize;
+}
 
 @end

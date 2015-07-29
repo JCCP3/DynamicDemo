@@ -29,7 +29,6 @@
     attentionTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:attentionTableView];
     
-    
     for (int i = 0; i<10 ; i++) {
         User *user = [[User alloc] init];
         user.userName = [NSString stringWithFormat:@"苍老湿%d号",i];
@@ -75,7 +74,7 @@
     
     AttentionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if(cell == nil){
+    if (cell == nil) {
         cell = [[AttentionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }

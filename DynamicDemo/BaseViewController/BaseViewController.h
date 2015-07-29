@@ -13,7 +13,6 @@ typedef enum {
     CustomNavigationBarColorWhite,
     CustomNavigationBarColorLightWhite,
     CustomNavigationBarColorBlack
-    
 }CustomNavigationBarColorTag;
 
 @interface BaseViewController : UIViewController

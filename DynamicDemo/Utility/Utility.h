@@ -22,4 +22,7 @@
 
 + (UIImage *)createScoreImage:(NSInteger)rating;
 
+//简单版本计算文本大小
++ (CGSize)simpleSizeWithStr:(NSString *)str font:(UIFont *)font;
+
 @end

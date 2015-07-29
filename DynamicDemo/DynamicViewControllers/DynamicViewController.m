@@ -40,7 +40,7 @@
     [super viewDidLoad];
     
     /* 适配头部导航条 */
-    [self adaptHeaderViewWithHeight:64.f bgTag:CustomNavigationBarColorRed navTitle:@"动态" segmentArray:@[@"动态",@"热门",@"我的"]];
+    [self adaptHeaderViewWithHeight:64.f bgTag:CustomNavigationBarColorWhite navTitle:@"动态" segmentArray:@[@"动态",@"热门",@"我的"]];
     [self adaptHeaderViewWithLeftImage:nil leftTitle:nil rightImage:nil rightTitle:nil];
     [self adaptHeaderViewWithLeftAliveSetting:NO leftTitleAndImageAlive:NO rightAlive:NO];
     
@@ -63,9 +63,20 @@
         dynamic.dynamicUserName = [NSString stringWithFormat:@"张三%d号",i+1];
         dynamic.dynamicTitle = @"我是张三";
         dynamic.dynamicContent = @"我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王我是隔壁老王";
-        dynamic.dynamicCommentNum = @"1022";
+        dynamic.dynamicCommentNum = @"22";
         dynamic.dynamicTransmitNum = @"1002";
         dynamic.dynamicPublishDate = @"2015-07-10 12:00:00";
+        if (i<5) {
+           dynamic.isMySelf = YES;
+        } else {
+            dynamic.isMySelf = NO;
+            if (i<7) {
+                dynamic.isAttention = YES;
+            }else{
+                dynamic.isAttention = NO;
+            }
+        }
+        
         Book *book = [[Book alloc] init];
         book.bookName = @"武大郎大战西门庆";
         book.bookWordNum = @"100字";
@@ -84,7 +95,6 @@
 
 - (void)layoutTableHeaderView
 {
-    
     topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_AVALIABLE_WIDTH, 130)];
     [topView setBackgroundColor:[UIColor whiteColor]];
     tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_AVALIABLE_WIDTH, 150.f)];
@@ -147,56 +157,50 @@
             cellHeight += 21.f;
         }
         
-        cellHeight += 15.f; //距离上方15
+        cellHeight += 12.f; //距离上方12
         
         cellHeight += 21.f; //姓名
-        
         
         //根据类别判断
         if ([dynamic.dynamicCategoryID intValue] == 1 || (([dynamic.dynamicCategoryID intValue] == 0) && [dynamic.dynamicTransmitCategoryID intValue] == 1)) {
             
-            cellHeight += 10.f; //姓名与内容之间的距离
+            cellHeight += 1.f; //姓名与内容之间的距离
             
             //标题＋正文 长文章
             cellHeight += 21.f;//标题
             
-            cellHeight += 5.f; //标题与content之间的距离
+            cellHeight -= 3.f; //标题与content之间的距离
             
-            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:DEVICE_AVALIABLE_WIDTH-30-50-15 withLabelFont:17.f];
+            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:DEVICE_AVALIABLE_WIDTH-15-35-7-15 withLabelFont:14.f];
+            
             cellHeight += MIN(21*3, contentLabelHeight); //content内容
-            
-            cellHeight += 15.f;// content和评论之间距离
-            cellHeight += 25;//评论View
-            
-            cellHeight += 15.f;//距离底部距离
+            cellHeight += 3.f;// content和评论之间距离
+            cellHeight += 20;//评论View
+            cellHeight += 12.f;//距离底部距离
             
         } else if ([dynamic.dynamicCategoryID intValue] == 2 || (([dynamic.dynamicCategoryID intValue] == 0) && [dynamic.dynamicTransmitCategoryID intValue] == 2)) {
             
-            cellHeight += 5.f; //姓名与内容之间的距离
+            cellHeight += 1.f; //姓名与内容之间的距离
             
-            //正文 文章
-            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:DEVICE_AVALIABLE_WIDTH-30-50-15 withLabelFont:17.f];
-            cellHeight += MIN(21*5, contentLabelHeight); //content内容
+            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:DEVICE_AVALIABLE_WIDTH-30-35-7 withLabelFont:14.f];
             
-            cellHeight += 15.f;// content和评论之间距离
-            cellHeight += 25;//评论View
-            
-            cellHeight += 15.f;//距离底部距离
+            cellHeight += MIN(14.f*5+14, contentLabelHeight); //content内容
+            cellHeight += 10.f;// content和评论之间距离
+            cellHeight += 20;//评论View
+            cellHeight += 12.f;//距离底部距离
             
         } else if ([dynamic.dynamicCategoryID intValue] == 3 || (([dynamic.dynamicCategoryID intValue] == 0) && [dynamic.dynamicTransmitCategoryID intValue] == 3)) {
             
-            cellHeight += 5.f; //姓名与内容之间的距离
+            cellHeight += 1.f; //姓名与内容之间的距离
             
-            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:DEVICE_AVALIABLE_WIDTH-30-65-15 withLabelFont:17.f];
-            cellHeight += MIN(21*2, contentLabelHeight); //content内容
-            
+            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:DEVICE_AVALIABLE_WIDTH-30-35-7 withLabelFont:14.f];
+    
+            cellHeight += MIN(14.f*2+6, contentLabelHeight); //content内容
             cellHeight += 10.f;// content 和引用之间距离
-            cellHeight += 95.f; //引用高度
-            
-            cellHeight += 15.f;//引用高度与评论View的距离
-            cellHeight += 25;//评论View
-            
-            cellHeight += 15.f;//距离底部距离
+            cellHeight += 65.f; //引用高度
+            cellHeight += 14.f;//引用高度与评论View的距离
+            cellHeight += 20;//评论View
+            cellHeight += 12.f;//距离底部距离
             
         }
         

@@ -55,27 +55,30 @@
     [super viewDidLoad];
     
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_AVALIABLE_WIDTH, 64.f)];
+    [self.view addSubview:headerView];
+    
     navLeftBarBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [navLeftBarBtn addTarget:self action:@selector(onClickLeftBtn) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:navLeftBarBtn];
+    
+    navRightBarBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [navRightBarBtn addTarget:self action:@selector(onClickRightBtn) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:navRightBarBtn];
     
     navTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
-    navRightBarBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [headerView addSubview:navTitleLabel];
+    
     navSecRightBarBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    [navSecRightBarBtn addTarget:self action:@selector(onClickSecRightBtn) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:navSecRightBarBtn];
     
     segmentedControl = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
     segmentedControl.selectedSegmentIndex = 0; //默认选中第一个
     [segmentedControl addTarget:self action:@selector(onClickSegment:) forControlEvents:UIControlEventValueChanged];
-    
-    [navLeftBarBtn addTarget:self action:@selector(onClickLeftBtn) forControlEvents:UIControlEventTouchUpInside];
-    [navRightBarBtn addTarget:self action:@selector(onClickRightBtn) forControlEvents:UIControlEventTouchUpInside];
-    [navSecRightBarBtn addTarget:self action:@selector(onClickSecRightBtn) forControlEvents:UIControlEventTouchUpInside];
-    
-    [headerView addSubview:navLeftBarBtn];
-    [headerView addSubview:navTitleLabel];
-    [headerView addSubview:navRightBarBtn];
-    [headerView addSubview:navSecRightBarBtn];
+//    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    segmentedControl.tintColor = RGBCOLOR(167, 10, 10);
     [headerView addSubview:segmentedControl];
-    [self.view addSubview:headerView];
     
     self.shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_AVALIABLE_WIDTH, DEVICE_AVALIABLE_HEIGHT)];
     self.shadowView.tag = 1000;
@@ -104,7 +107,6 @@
 
 //添加阴影遮罩层
 - (void)setShadowView{
-    
     [self.shadowView setFrame:CGRectMake(0, 0, DEVICE_AVALIABLE_WIDTH, DEVICE_AVALIABLE_HEIGHT)];
 }
 
@@ -159,6 +161,7 @@
     }
     
     [headerView setBackgroundColor:navigationBarBackgroundColor];
+    
     navTitleString = title;
     navTitleLabel.textColor = navigationBarTextColor;
     currentSegmentArray = array;

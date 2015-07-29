@@ -10,12 +10,12 @@
 
 @interface User : NSObject
 
-@property (nonatomic ,strong)NSString *userID;
-@property (nonatomic ,strong)NSString *userName;
-@property (nonatomic ,strong)NSString *userHeadImage;
-@property (nonatomic ,strong)NSString *userDynamicCount; //动态个数
-@property (nonatomic ,strong)NSString *userAttentionCount;
-@property (nonatomic ,strong)NSString *userFansCount;
-@property (nonatomic ,strong)NSString *userAvatar;
+@property (nonatomic, strong) NSString *userID;
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSString *userHeadImage;
+@property (nonatomic, strong) NSString *userDynamicCount; //动态个数
+@property (nonatomic, strong) NSString *userAttentionCount;
+@property (nonatomic, strong) NSString *userFansCount;
+@property (nonatomic, strong) NSString *userAvatar;
 
 @end

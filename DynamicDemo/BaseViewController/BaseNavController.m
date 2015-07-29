@@ -56,13 +56,11 @@ static const char *assoKeyEnableGesture="__yrakenabg";
 #pragma mark 重写UInavigationController方法
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    
     if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.interactivePopGestureRecognizer.enabled = NO;
     }
     
     [super pushViewController:viewController animated:animated];
-    
 }
 
 

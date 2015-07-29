@@ -8,42 +8,65 @@
 
 #import "DynamicCell.h"
 #import "Utility.h"
-#define BTN_WIDTH 70
-#define BTN_HEIGHT 25
-#define IMAGEWIDTH 15
-#define IMAGEHEIGHT 12.5
-#define SPACEWIDTH 3
+
+
+static CGFloat btnWidth = 60;
+static CGFloat btnHeight = 20;
+static CGFloat imageWidth = 12;
+static CGFloat imageHeight = 10;
+static CGFloat spaceWidth = 3;
+static CGFloat avatarWidth = 35.f;  //头像宽度
+static CGFloat borderWidth = 15.f; //边界
+static CGFloat avatarNameSpace = 7.f; //头像姓名之间间距
+static CGFloat bookImageWidth = 36.f;
+static CGFloat bookImageHeight = 45.f;
 
 @implementation DynamicCell{
     
-    UIView *dynamicShowTransmitView;
-    UIImageView *dynamicPraiseImageView;
-    UILabel *dynamicTransmitInfoLabel;
-    UIImageView *dynamicUserAvatarImageView;
-    UILabel *dynamicUserNameLabel;
-    UIButton *dynamicAttentionBtn; //关注Btn
-    UIImageView *dynamicHotImageView; //热门ImageView
-    UILabel *dynamicTitleLabel;
-    UILabel *dynamicContentLabel;
-    UILabel *dynamicPublishDateLabel;
+    UIView *showTransmitView;
+    
+    UIImageView *praiseImageView;
+    
+    UILabel *transmitInfoLabel;
+    
+    UIImageView *userAvatarImageView;
+    
+    UILabel *userNameLabel;
+    
+    UIImageView *hotImageView; //热门ImageView
+    
+    UILabel *titleLabel;
+    UILabel *contentLabel;
+    UILabel *publishDateLabel;
+    
     //书本
-    UIView *dynamicAppointBookView;
-    UIImageView *dynamicBookImageView;
-    UILabel *dynamicBookNameLabel;
-    UILabel *dynamicBookInfoLabel;
-    UIImageView *dynamicBookScoreImageView;
-    UIImageView *dynamicArrowImageView; //箭头
+    UIView *appointBookView;
+    
+    UIImageView *bookImageView;
+    
+    UILabel *bookNameLabel;
+    UILabel *bookInfoLabel;
+    
+    UIImageView *bookScoreImageView;
+    UIImageView *arrowImageView; //箭头
     
     UIView *commentBottomView;
-    UIImageView *dynamicCommentImageView;
-    UIView *dynamicListCommentView;
-    UIView *dynamicListTransmitView;
-    UIImageView *dynamicTransmitImageView;
-    UILabel *dynamicCommentNumLabel;
-    UILabel *dynamicTransmitNumLabel;
-    UIButton *dynamicCommentBtn;
-    UIButton *dynamicTransmitBtn;
     
+    UIImageView *commentImageView;
+    UIImageView *transmitImageView;
+    UIImageView *attentionImageView;
+    
+    UIView *listCommentView;
+    UIView *listTransmitView;
+    UIView *listAttentionView;
+    
+    UILabel *commentNumLabel;
+    UILabel *transmitNumLabel;
+    UILabel *attentionLabel;
+    
+    UIButton *commentBtn;
+    UIButton *transmitBtn;
+    UIButton *attentionBtn;
 }
 
 - (void)awakeFromNib
@@ -63,313 +86,477 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if(self){
-        dynamicShowTransmitView = [[UIView alloc] initWithFrame:CGRectZero];
-        dynamicPraiseImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicTransmitInfoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicTransmitInfoLabel.font = [UIFont systemFontOfSize:15.f];
-        dynamicTransmitInfoLabel.textColor = [UIColor lightGrayColor];
-        [dynamicShowTransmitView addSubview:dynamicPraiseImageView];
-        [dynamicShowTransmitView addSubview:dynamicTransmitInfoLabel];
+      
+        showTransmitView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:showTransmitView];
         
-        dynamicUserAvatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicPublishDateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicPublishDateLabel.font = [UIFont systemFontOfSize:14.f];
-        dynamicPublishDateLabel.textColor = [UIColor lightGrayColor];
-        dynamicAttentionBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        dynamicHotImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicUserNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicUserNameLabel.textColor = [UIColor orangeColor];
-        dynamicTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:21];
-        dynamicContentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        //引用的书本
-        dynamicAppointBookView = [[UIView alloc] initWithFrame:CGRectZero];
-        dynamicAppointBookView.layer.borderWidth = 1;
-        dynamicAppointBookView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicAppointBookView.backgroundColor = [Utility colorWithHexString:@"#f7f7f7"];
+        praiseImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [showTransmitView addSubview:praiseImageView];
         
-        dynamicBookImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicBookNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicBookNameLabel.font = [UIFont systemFontOfSize:19.f];
-        dynamicBookInfoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicBookInfoLabel.font = [UIFont systemFontOfSize:13.f];
-        dynamicBookInfoLabel.textColor = [UIColor lightGrayColor];
-        dynamicArrowImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicBookScoreImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        transmitInfoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        transmitInfoLabel.font = [UIFont systemFontOfSize:15.f];
+        transmitInfoLabel.textColor = [UIColor lightGrayColor];
+        [showTransmitView addSubview:transmitInfoLabel];
 
-        [dynamicAppointBookView addSubview:dynamicBookImageView];
-        [dynamicAppointBookView addSubview:dynamicBookNameLabel];
-        [dynamicAppointBookView addSubview:dynamicBookInfoLabel];
-        [dynamicAppointBookView addSubview:dynamicArrowImageView];
-        [dynamicAppointBookView addSubview:dynamicBookScoreImageView];
+        userAvatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:userAvatarImageView];
+        
+        publishDateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        publishDateLabel.font = [UIFont systemFontOfSize:12.f];
+        publishDateLabel.textColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:publishDateLabel];
+        
+        attentionBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:attentionBtn];
+        
+        hotImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:hotImageView];
+        
+        userNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        userNameLabel.font = [UIFont systemFontOfSize:12.f];
+        userNameLabel.textColor = RGBCOLOR(165, 141, 94);
+        [self.contentView addSubview:userNameLabel];
+        
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//        titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.5f];
+        titleLabel.font = [UIFont systemFontOfSize:15.5f];
+        [self.contentView addSubview:titleLabel];
+        
+        contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        contentLabel.font = [UIFont systemFontOfSize:14.f];
+        [self.contentView addSubview:contentLabel];
+        
+        //引用的书本
+        appointBookView = [[UIView alloc] initWithFrame:CGRectZero];
+        appointBookView.layer.borderWidth = 1;
+        appointBookView.layer.borderColor = RGBCOLOR(230, 230, 230).CGColor;
+        appointBookView.backgroundColor = RGBCOLOR(240, 240, 240);
+        [self.contentView addSubview:appointBookView];
+        
+        bookImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [appointBookView addSubview:bookImageView];
+        
+        bookNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        bookNameLabel.font = [UIFont systemFontOfSize:15.f];
+        [appointBookView addSubview:bookNameLabel];
+        
+        bookInfoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        bookInfoLabel.font = [UIFont systemFontOfSize:12.f];
+        bookInfoLabel.textColor = [UIColor lightGrayColor];
+        [appointBookView addSubview:bookInfoLabel];
+        
+        arrowImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [appointBookView addSubview:arrowImageView];
+        
+        bookScoreImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [appointBookView addSubview:bookScoreImageView];
         
         //评论
         commentBottomView= [[UIView alloc] initWithFrame:CGRectZero];
-        dynamicCommentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicCommentNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicCommentNumLabel.font = [UIFont systemFontOfSize:15.f];
-        dynamicCommentNumLabel.textColor = [UIColor lightGrayColor];
-        dynamicTransmitImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        dynamicTransmitNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        dynamicTransmitNumLabel.font = [UIFont systemFontOfSize:15.f];
-        dynamicTransmitNumLabel.textColor = [UIColor lightGrayColor];
-        dynamicCommentBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        dynamicTransmitBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        dynamicListTransmitView = [[UIView alloc] initWithFrame:CGRectZero];
-        dynamicListCommentView = [[UIView alloc] initWithFrame:CGRectZero];
-        [commentBottomView addSubview:dynamicListCommentView];
-        [commentBottomView addSubview:dynamicListTransmitView];
-        [dynamicListCommentView addSubview:dynamicCommentImageView];
-        [dynamicListCommentView addSubview:dynamicCommentNumLabel];
-        [dynamicListCommentView addSubview:dynamicCommentBtn];
-        [dynamicListTransmitView addSubview:dynamicTransmitImageView];
-        [dynamicListTransmitView addSubview:dynamicTransmitNumLabel];
-        [dynamicListTransmitView addSubview:dynamicTransmitBtn];
-        
-        [self.contentView addSubview:dynamicShowTransmitView];
-        [self.contentView addSubview:dynamicUserAvatarImageView];
-        [self.contentView addSubview:dynamicPublishDateLabel];
-        [self.contentView addSubview:dynamicUserNameLabel];
-        [self.contentView addSubview:dynamicAttentionBtn];
-        [self.contentView addSubview:dynamicHotImageView];
-        [self.contentView addSubview:dynamicTitleLabel];
-        [self.contentView addSubview:dynamicContentLabel];
-        [self.contentView addSubview:dynamicAppointBookView];
         [self.contentView addSubview:commentBottomView];
+        
+        listTransmitView = [[UIView alloc] initWithFrame:CGRectZero];
+        [commentBottomView addSubview:listTransmitView];
+        
+        listCommentView = [[UIView alloc] initWithFrame:CGRectZero];
+        [commentBottomView addSubview:listCommentView];
+        
+        listAttentionView = [[UIView alloc] initWithFrame:CGRectZero];
+        [commentBottomView addSubview:listAttentionView];
+        
+        commentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [listCommentView addSubview:commentImageView];
+        
+        transmitImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [listTransmitView addSubview:transmitImageView];
+        
+        attentionImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [listAttentionView addSubview:attentionImageView];
+   
+        commentNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        commentNumLabel.font = [UIFont systemFontOfSize:12.f];
+        commentNumLabel.textColor = RGBCOLOR(178, 178, 178);
+        [listCommentView addSubview:commentNumLabel];
+        
+        transmitNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        transmitNumLabel.font = [UIFont systemFontOfSize:12.f];
+        transmitNumLabel.textColor = RGBCOLOR(178, 178, 178);
+        [listTransmitView addSubview:transmitNumLabel];
+        
+        attentionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        attentionLabel.font = [UIFont systemFontOfSize:12.f];
+        attentionLabel.textColor = RGBCOLOR(178, 178, 178);
+        [listAttentionView addSubview:attentionLabel];
+        
+        commentBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+        [listCommentView addSubview:commentBtn];
+        
+        transmitBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+        [listTransmitView addSubview:transmitBtn];
+        
+        attentionBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+        [listAttentionView addSubview:attentionBtn];
         
     }
     
     return self;
-    
 }
 
 - (void)loadDynamicCellData:(Dynamic *)dynamic
 {
     
     CGFloat activeHeight = 0.f;
+    
     if ([dynamic.dynamicCategoryID intValue] == 0) {
-        activeHeight = 21.f+10;
-        [dynamicShowTransmitView setHidden:NO];
-        [dynamicShowTransmitView setFrame:CGRectMake(15, 10, DEVICE_AVALIABLE_WIDTH-30, 21.f)];
-        [dynamicPraiseImageView setFrame:CGRectMake(50.f/2, 0, 20, 20)];
-        [dynamicTransmitInfoLabel setFrame:CGRectMake(50+15, 0, dynamicShowTransmitView.bounds.size.width-(50+15), 21.f)];
         
+        activeHeight = 21.f+10;
+        [showTransmitView setHidden:NO];
+        [showTransmitView setFrame:CGRectMake(15, 10, DEVICE_AVALIABLE_WIDTH-30, 21.f)];
+        
+        [praiseImageView setFrame:CGRectMake(50.f/2, 0, 20, 20)];
+        
+        [transmitInfoLabel setFrame:CGRectMake(50+15, 0, showTransmitView.bounds.size.width-(50+15), 21.f)];
         if(![Utility isBlankString:dynamic.dynamicTransmitPersons]){
-            dynamicTransmitInfoLabel.text = [NSString stringWithFormat:@"%@ 转发了这条动态",dynamic.dynamicTransmitPersons];
+            transmitInfoLabel.text = [NSString stringWithFormat:@"%@ 转发了这条动态",dynamic.dynamicTransmitPersons];
         }
+        
     } else {
-        [dynamicShowTransmitView setHidden:YES];
+        [showTransmitView setHidden:YES];
     }
     
-    [dynamicUserAvatarImageView setImage:ImageNamed(@"icon.png")];
-    [dynamicUserAvatarImageView setFrame:CGRectMake(15, 15+activeHeight, 50, 50)];
+    [userAvatarImageView setImage:ImageNamed(@"icon.png")];
+    [userAvatarImageView setFrame:CGRectMake(borderWidth, 12+activeHeight, 35, 35)];
     
+    //发布时间
     if (![Utility isBlankString:dynamic.dynamicPublishDate]){
-        CGFloat publishDateWidth = [Utility widthForLabel:[Utility changeDateToDaysAgo:dynamic.dynamicPublishDate] constrsize:21.f widthLabelFont:14.f];
-        [dynamicPublishDateLabel setFrame:CGRectMake(DEVICE_AVALIABLE_WIDTH-15-publishDateWidth, 15+activeHeight, publishDateWidth, 21.f)];
-        [dynamicUserNameLabel setFrame:CGRectMake(15+50+15, dynamicUserAvatarImageView.frame.origin.y, DEVICE_AVALIABLE_WIDTH-(15+50+15)-15-publishDateWidth, 21.f)];
-        dynamicUserNameLabel.text = dynamic.dynamicUserName;
-        dynamicPublishDateLabel.text = [Utility changeDateToDaysAgo:dynamic.dynamicPublishDate];
+        
+        CGFloat publishDateWidth = [Utility widthForLabel:[Utility changeDateToDaysAgo:dynamic.dynamicPublishDate] constrsize:21.f widthLabelFont:12.f];
+        [publishDateLabel setFrame:CGRectMake(DEVICE_AVALIABLE_WIDTH-borderWidth-publishDateWidth, userAvatarImageView.frame.origin.y, publishDateWidth, 21.f)];
+        publishDateLabel.text = [Utility changeDateToDaysAgo:dynamic.dynamicPublishDate];
+        
+        [userNameLabel setFrame:CGRectMake(borderWidth+avatarWidth+avatarNameSpace, userAvatarImageView.frame.origin.y, DEVICE_AVALIABLE_WIDTH-(borderWidth+avatarWidth+avatarNameSpace)-borderWidth, 21.f)];
+        userNameLabel.text = dynamic.dynamicUserName;
     }
 
     //根据类别判断
     if ([dynamic.dynamicCategoryID intValue] == 1 || ([dynamic.dynamicCategoryID intValue] == 0 && [dynamic.dynamicTransmitCategoryID intValue] == 1)) {
+    //标题＋正文 长文章
+        [appointBookView setHidden:YES];
         
-        [dynamicAppointBookView setHidden:YES];
-        [dynamicTitleLabel setHidden:NO];
-        //标题＋正文 长文章
-        [dynamicTitleLabel setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicUserNameLabel.frame.origin.y+dynamicUserNameLabel.bounds.size.height+10, DEVICE_AVALIABLE_WIDTH-30-50-15, 21.f)];
-        [dynamicContentLabel setFrame:CGRectMake(dynamicTitleLabel.frame.origin.x, dynamicTitleLabel.frame.origin.y+dynamicTitleLabel.bounds.size.height+5, DEVICE_AVALIABLE_WIDTH-30-50-15, 21.f)];
+        [titleLabel setHidden:NO];
+        
+        [titleLabel setFrame:CGRectMake(userNameLabel.frame.origin.x, userNameLabel.frame.origin.y+userNameLabel.bounds.size.height+1, DEVICE_AVALIABLE_WIDTH-userNameLabel.frame.origin.x-borderWidth, 21.f)];
+        
+        [contentLabel setFrame:CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y+titleLabel.bounds.size.height-3, titleLabel.bounds.size.width, 21.f)];
+        
         if (![Utility isBlankString:dynamic.dynamicTitle]) {
-            dynamicTitleLabel.text = dynamic.dynamicTitle;
-        }
-        if (![Utility isBlankString:dynamic.dynamicContent]) {
-            dynamicContentLabel.text = dynamic.dynamicContent;
-            dynamicContentLabel.numberOfLines = 0;
-            dynamicContentLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
-            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:dynamicContentLabel.bounds.size.width withLabelFont:17.f];
-            [dynamicContentLabel setFrame:CGRectMake(dynamicContentLabel.frame.origin.x, dynamicContentLabel.frame.origin.y, dynamicContentLabel.bounds.size.width, MIN(21*3, contentLabelHeight))];
+            titleLabel.text = dynamic.dynamicTitle;
         }
         
-        [commentBottomView setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicContentLabel.frame.origin.y+dynamicContentLabel.bounds.size.height+15.f, dynamicContentLabel.bounds.size.width, BTN_HEIGHT)];
+        if (![Utility isBlankString:dynamic.dynamicContent]) {
+            contentLabel.text = dynamic.dynamicContent;
+            contentLabel.numberOfLines = 0;
+            contentLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
+            contentLabel.font = [UIFont systemFontOfSize:14.f];
+            contentLabel.textColor = RGBCOLOR(128, 128, 128);
+            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:contentLabel.bounds.size.width withLabelFont:14.f];
+            [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, contentLabel.bounds.size.width, MIN(21*3, contentLabelHeight))];
+        }
+        
+        [commentBottomView setFrame:CGRectMake(userNameLabel.frame.origin.x, contentLabel.frame.origin.y+contentLabel.bounds.size.height+3, contentLabel.bounds.size.width, btnHeight)];
         
         /* 评论 */
         if (![Utility isBlankString:dynamic.dynamicCommentNum]) {
-            dynamicCommentNumLabel.text = dynamic.dynamicCommentNum;
+            commentNumLabel.text = dynamic.dynamicCommentNum;
         } else {
-            dynamicCommentNumLabel.text = @"评论";
+            commentNumLabel.text = @"评论";
         }
-        [dynamicCommentImageView setImage:ImageNamed(@"评论.png")];
         
-        CGFloat commentNumWidth = [Utility widthForLabel:dynamic.dynamicCommentNum constrsize:21.f widthLabelFont:15.f];
-        CGFloat leftOffset = (BTN_WIDTH-IMAGEWIDTH-SPACEWIDTH-commentNumWidth)/2;
-        [dynamicCommentImageView setFrame:CGRectMake(leftOffset, BTN_HEIGHT/2 - IMAGEHEIGHT/2, IMAGEWIDTH, IMAGEHEIGHT)];
-        [dynamicCommentNumLabel setFrame:CGRectMake(dynamicCommentImageView.frame.origin.x+dynamicCommentImageView.bounds.size.width+SPACEWIDTH, 3, commentNumWidth, 21.f)];
-        dynamicCommentNumLabel.center = CGPointMake(dynamicCommentNumLabel.frame.origin.x+dynamicCommentNumLabel.bounds.size.width/2, dynamicCommentImageView.frame.origin.y+dynamicCommentImageView.bounds.size.height/2);
-        [dynamicCommentBtn setFrame:CGRectMake(0, 0, dynamicCommentNumLabel.frame.origin.x+dynamicCommentNumLabel.bounds.size.width+leftOffset, 21.f)];
-        [dynamicListCommentView setFrame:CGRectMake(0, 0, BTN_WIDTH, BTN_HEIGHT)];
-        dynamicListCommentView.layer.borderWidth = 1;
-        dynamicListCommentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicListCommentView.layer.cornerRadius = 12.f;
+        [commentImageView setImage:ImageNamed(@"评论.png")];
+        
+        CGFloat commentNumWidth = [Utility widthForLabel:dynamic.dynamicCommentNum constrsize:21.f widthLabelFont:12.f];
+        CGFloat leftOffset = (btnWidth-imageWidth-spaceWidth-commentNumWidth)/2;
+        
+        [commentImageView setFrame:CGRectMake(leftOffset, btnHeight/2 - imageHeight/2, imageWidth, imageHeight)];
+        
+        [commentNumLabel setFrame:CGRectMake(commentImageView.frame.origin.x+commentImageView.bounds.size.width+spaceWidth, 3, commentNumWidth, 21.f)];
+        commentNumLabel.center = CGPointMake(commentNumLabel.frame.origin.x+commentNumLabel.bounds.size.width/2, commentImageView.frame.origin.y+commentImageView.bounds.size.height/2);
+        
+        [commentBtn setFrame:CGRectMake(0, 0, commentNumLabel.frame.origin.x+commentNumLabel.bounds.size.width+leftOffset, 21.f)];
+        
+        [listCommentView setFrame:CGRectMake(0, 0, btnWidth, btnHeight)];
+        listCommentView.layer.borderWidth = 1;
+        listCommentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        listCommentView.layer.cornerRadius = 10;
 
-        
         /* 转发 */
         if (![Utility isBlankString:dynamic.dynamicTransmitNum]) {
-            dynamicTransmitNumLabel.text = dynamic.dynamicTransmitNum;
+            transmitNumLabel.text = dynamic.dynamicTransmitNum;
         } else {
-            dynamicTransmitNumLabel.text = @"转发";
+            transmitNumLabel.text = @"转发";
         }
         
-        [dynamicTransmitImageView setImage:ImageNamed(@"转发.png")];
-        CGFloat transmitNumWidth = [Utility widthForLabel:dynamic.dynamicTransmitNum constrsize:21.f widthLabelFont:15.f];
-        CGFloat leftTansmitOffset = (BTN_WIDTH-IMAGEWIDTH-SPACEWIDTH-transmitNumWidth)/2;
-        [dynamicTransmitImageView setFrame:CGRectMake(leftTansmitOffset, BTN_HEIGHT/2-IMAGEHEIGHT/2, IMAGEWIDTH, IMAGEHEIGHT)];
-        [dynamicTransmitNumLabel setFrame:CGRectMake(dynamicTransmitImageView.frame.origin.x+dynamicTransmitImageView.bounds.size.width+SPACEWIDTH, 3, transmitNumWidth, 21.f)];
-        dynamicTransmitNumLabel.center = CGPointMake(dynamicTransmitNumLabel.frame.origin.x+dynamicTransmitNumLabel.bounds.size.width/2, dynamicTransmitImageView.frame.origin.y+dynamicTransmitImageView.bounds.size.height/2);
-       [dynamicTransmitBtn setFrame:CGRectMake(0, 0, dynamicTransmitNumLabel.frame.origin.x+dynamicTransmitNumLabel.bounds.size.width+leftTansmitOffset, BTN_HEIGHT)];
-        [dynamicListTransmitView setFrame:CGRectMake(dynamicListCommentView.frame.origin.x+dynamicListCommentView.bounds.size.width+15.f, 0, BTN_WIDTH, BTN_HEIGHT)];
-        dynamicListTransmitView.layer.borderWidth = 1;
-        dynamicListTransmitView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicListTransmitView.layer.cornerRadius = 12.f;
+        [transmitImageView setImage:ImageNamed(@"转发.png")];
+        
+        CGFloat transmitNumWidth = [Utility widthForLabel:dynamic.dynamicTransmitNum constrsize:21.f widthLabelFont:12.f];
+        CGFloat leftTansmitOffset = (btnWidth-imageWidth-spaceWidth-transmitNumWidth)/2;
+        
+        [transmitImageView setFrame:CGRectMake(leftTansmitOffset, btnHeight/2-imageHeight/2, imageWidth, imageHeight)];
+        
+        [transmitNumLabel setFrame:CGRectMake(transmitImageView.frame.origin.x+transmitImageView.bounds.size.width+spaceWidth, 3, transmitNumWidth, 21.f)];
+        transmitNumLabel.center = CGPointMake(transmitNumLabel.frame.origin.x+transmitNumLabel.bounds.size.width/2, transmitImageView.frame.origin.y+transmitImageView.bounds.size.height/2);
+       
+        [transmitBtn setFrame:CGRectMake(0, 0, transmitNumLabel.frame.origin.x+transmitNumLabel.bounds.size.width+leftTansmitOffset, btnHeight)];
+        
+        [listTransmitView setFrame:CGRectMake(listCommentView.frame.origin.x+listCommentView.bounds.size.width+15.f, 0, btnWidth, btnHeight)];
+        listTransmitView.layer.borderWidth = 1;
+        listTransmitView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        listTransmitView.layer.cornerRadius = 10;
         
     } else if ([dynamic.dynamicCategoryID intValue] == 2 || ([dynamic.dynamicCategoryID intValue] == 0 && [dynamic.dynamicTransmitCategoryID intValue] == 2)) {
+    //正文 短文章 (显示5行)
         
-        [dynamicAppointBookView setHidden:YES];
-        [dynamicTitleLabel setHidden:YES];
+        [appointBookView setHidden:YES];
         
-        //正文 短文章
-//        [dynamicTitleLabel setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicUserNameLabel.frame.origin.y+dynamicUserNameLabel.bounds.size.height+10, DEVICE_AVALIABLE_WIDTH-30-50-15, 21.f)];
-        [dynamicContentLabel setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicUserNameLabel.frame.origin.y+dynamicUserNameLabel.bounds.size.height+5, DEVICE_AVALIABLE_WIDTH-30-50-15, 21.f)];
-//        if (![Utility isBlankString:dynamic.dynamicTitle]) {
-//            dynamicTitleLabel.text = dynamic.dynamicTitle;
-//        }
+        [titleLabel setHidden:YES];
+    
+        [contentLabel setFrame:CGRectMake(userNameLabel.frame.origin.x, userNameLabel.frame.origin.y+userNameLabel.bounds.size.height+1, DEVICE_AVALIABLE_WIDTH-borderWidth*2-avatarWidth-avatarNameSpace, 21.f)];
+
         if (![Utility isBlankString:dynamic.dynamicContent]) {
-            dynamicContentLabel.text = dynamic.dynamicContent;
-            dynamicContentLabel.numberOfLines = 0;
-            dynamicContentLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
-            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:dynamicContentLabel.bounds.size.width withLabelFont:17.f];
-            [dynamicContentLabel setFrame:CGRectMake(dynamicContentLabel.frame.origin.x, dynamicContentLabel.frame.origin.y, dynamicContentLabel.bounds.size.width, MIN(21*5, contentLabelHeight))];
+            
+            contentLabel.text = dynamic.dynamicContent;
+            contentLabel.numberOfLines = 0;
+            contentLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
+            contentLabel.font = [UIFont systemFontOfSize:14.f];
+            contentLabel.textColor = [UIColor blackColor];
+            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:contentLabel.bounds.size.width withLabelFont:14.f];
+            [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, contentLabel.bounds.size.width, MIN(14.f*5+14, contentLabelHeight))];
+
         }
         
-        [commentBottomView setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicContentLabel.frame.origin.y+dynamicContentLabel.bounds.size.height+15.f, dynamicContentLabel.bounds.size.width, BTN_HEIGHT)];
+        [commentBottomView setFrame:CGRectMake(userNameLabel.frame.origin.x, contentLabel.frame.origin.y+contentLabel.bounds.size.height+10, contentLabel.bounds.size.width, btnHeight)];
         
         /* 评论 */
         if (![Utility isBlankString:dynamic.dynamicCommentNum]) {
-            dynamicCommentNumLabel.text = dynamic.dynamicCommentNum;
+            commentNumLabel.text = dynamic.dynamicCommentNum;
         } else {
-            dynamicCommentNumLabel.text = @"评论";
+            commentNumLabel.text = @"评论";
         }
-        [dynamicCommentImageView setImage:ImageNamed(@"评论.png")];
         
-        CGFloat commentNumWidth = [Utility widthForLabel:dynamic.dynamicCommentNum constrsize:21.f widthLabelFont:15.f];
-        CGFloat leftOffset = (BTN_WIDTH-IMAGEWIDTH-SPACEWIDTH-commentNumWidth)/2;
-        [dynamicCommentImageView setFrame:CGRectMake(leftOffset, BTN_HEIGHT/2 - IMAGEHEIGHT/2, IMAGEWIDTH, IMAGEHEIGHT)];
-        [dynamicCommentNumLabel setFrame:CGRectMake(dynamicCommentImageView.frame.origin.x+dynamicCommentImageView.bounds.size.width+SPACEWIDTH, 3, commentNumWidth, 21.f)];
-        dynamicCommentNumLabel.center = CGPointMake(dynamicCommentNumLabel.frame.origin.x+dynamicCommentNumLabel.bounds.size.width/2, dynamicCommentImageView.frame.origin.y+dynamicCommentImageView.bounds.size.height/2);
-        [dynamicCommentBtn setFrame:CGRectMake(0, 0, dynamicCommentNumLabel.frame.origin.x+dynamicCommentNumLabel.bounds.size.width+leftOffset, 21.f)];
-        [dynamicListCommentView setFrame:CGRectMake(0, 0, BTN_WIDTH, BTN_HEIGHT)];
-        dynamicListCommentView.layer.borderWidth = 1;
-        dynamicListCommentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicListCommentView.layer.cornerRadius = 12.f;
+        [commentImageView setImage:ImageNamed(@"评论.png")];
         
+        CGFloat commentNumWidth = [Utility widthForLabel:dynamic.dynamicCommentNum constrsize:21.f widthLabelFont:12];
+        CGFloat leftOffset = (btnWidth-imageWidth-spaceWidth-commentNumWidth)/2;
+        [commentImageView setFrame:CGRectMake(leftOffset, btnHeight/2 - imageHeight/2, imageWidth, imageHeight)];
+        
+        [commentNumLabel setFrame:CGRectMake(commentImageView.frame.origin.x+commentImageView.bounds.size.width+spaceWidth, 3, commentNumWidth, 21.f)];
+        commentNumLabel.center = CGPointMake(commentNumLabel.frame.origin.x+commentNumLabel.bounds.size.width/2, commentImageView.frame.origin.y+commentImageView.bounds.size.height/2);
+        
+        [commentBtn setFrame:CGRectMake(0, 0, commentNumLabel.frame.origin.x+commentNumLabel.bounds.size.width+leftOffset, 21.f)];
+        
+        [listCommentView setFrame:CGRectMake(0, 0, btnWidth, btnHeight)];
+        listCommentView.layer.borderWidth = 1;
+        listCommentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        listCommentView.layer.cornerRadius = 10;
         
         /* 转发 */
         if (![Utility isBlankString:dynamic.dynamicTransmitNum]) {
-            dynamicTransmitNumLabel.text = dynamic.dynamicTransmitNum;
-        }else{
-            dynamicTransmitNumLabel.text = @"转发";
+            transmitNumLabel.text = dynamic.dynamicTransmitNum;
+        } else {
+            transmitNumLabel.text = @"转发";
         }
         
-        [dynamicTransmitImageView setImage:ImageNamed(@"转发.png")];
-        CGFloat transmitNumWidth = [Utility widthForLabel:dynamic.dynamicTransmitNum constrsize:21.f widthLabelFont:15.f];
-        CGFloat leftTansmitOffset = (BTN_WIDTH-IMAGEWIDTH-SPACEWIDTH-transmitNumWidth)/2;
-        [dynamicTransmitImageView setFrame:CGRectMake(leftTansmitOffset, BTN_HEIGHT/2-IMAGEHEIGHT/2, IMAGEWIDTH, IMAGEHEIGHT)];
-        [dynamicTransmitNumLabel setFrame:CGRectMake(dynamicTransmitImageView.frame.origin.x+dynamicTransmitImageView.bounds.size.width+SPACEWIDTH, 3, transmitNumWidth, 21.f)];
-        dynamicTransmitNumLabel.center = CGPointMake(dynamicTransmitNumLabel.frame.origin.x+dynamicTransmitNumLabel.bounds.size.width/2, dynamicTransmitImageView.frame.origin.y+dynamicTransmitImageView.bounds.size.height/2);
-        [dynamicTransmitBtn setFrame:CGRectMake(0, 0, dynamicTransmitNumLabel.frame.origin.x+dynamicTransmitNumLabel.bounds.size.width+leftTansmitOffset, BTN_HEIGHT)];
-        [dynamicListTransmitView setFrame:CGRectMake(dynamicListCommentView.frame.origin.x+dynamicListCommentView.bounds.size.width+15.f, 0, BTN_WIDTH, BTN_HEIGHT)];
-        dynamicListTransmitView.layer.borderWidth = 1;
-        dynamicListTransmitView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicListTransmitView.layer.cornerRadius = 12.f;
+        [transmitImageView setImage:ImageNamed(@"转发.png")];
+        
+        CGFloat transmitNumWidth = [Utility widthForLabel:dynamic.dynamicTransmitNum constrsize:21.f widthLabelFont:12];
+        CGFloat leftTansmitOffset = (btnWidth-imageWidth-spaceWidth-transmitNumWidth)/2;
+        
+        [transmitImageView setFrame:CGRectMake(leftTansmitOffset, btnHeight/2-imageHeight/2, imageWidth, imageHeight)];
+        
+        [transmitNumLabel setFrame:CGRectMake(transmitImageView.frame.origin.x+transmitImageView.bounds.size.width+spaceWidth, 3, transmitNumWidth, 21.f)];
+        transmitNumLabel.center = CGPointMake(transmitNumLabel.frame.origin.x+transmitNumLabel.bounds.size.width/2, transmitImageView.frame.origin.y+transmitImageView.bounds.size.height/2);
+        
+        [transmitBtn setFrame:CGRectMake(0, 0, transmitNumLabel.frame.origin.x+transmitNumLabel.bounds.size.width+leftTansmitOffset, btnHeight)];
+        
+        [listTransmitView setFrame:CGRectMake(listCommentView.frame.origin.x+listCommentView.bounds.size.width+15.f, 0, btnWidth, btnHeight)];
+        listTransmitView.layer.borderWidth = 1;
+        listTransmitView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        listTransmitView.layer.cornerRadius = 10;
+        
+        //关注 （或者删除）
+        if (dynamic.isMySelf) {
+            attentionLabel.text = @"删除";
+            attentionLabel.textColor = RGBCOLOR(178, 178, 178);
+            [attentionImageView setImage:ImageNamed(@"关注.png")];
+            listAttentionView.layer.borderColor = RGBCOLOR(178, 178, 178).CGColor;
+        } else {
+            if (dynamic.isAttention) {
+                
+                attentionLabel.text = @"已关注";
+                attentionLabel.textColor = RGBCOLOR(167, 10, 10);
+                
+                [attentionImageView setImage:ImageNamed(@"已关注.png")];
+                
+                listAttentionView.layer.borderColor = RGBCOLOR(167, 10, 10).CGColor;
+                
+            } else {
+                
+                attentionLabel.text = @"关注";
+                attentionLabel.textColor = RGBCOLOR(178, 178, 178);
+                
+                [attentionImageView setImage:ImageNamed(@"关注.png")];
+                
+                listAttentionView.layer.borderColor = RGBCOLOR(178, 178, 178).CGColor;
+            }
+        }
+        
+        
+        CGFloat attentionWidth = [Utility widthForLabel:attentionLabel.text constrsize:21.f widthLabelFont:12.f];
+        CGFloat leftAttentionOffset = (btnWidth-imageWidth-spaceWidth-attentionWidth)/2;
+        
+        [attentionImageView setFrame:CGRectMake(leftAttentionOffset, btnHeight/2-imageHeight/2, imageWidth, imageHeight)];
+        
+        [attentionLabel setFrame:CGRectMake(attentionImageView.frame.origin.x+attentionImageView.bounds.size.width+spaceWidth, 3, attentionWidth, 21.f)];
+        attentionLabel.center = CGPointMake(attentionLabel.frame.origin.x+attentionLabel.bounds.size.width/2, attentionImageView.frame.origin.y+attentionImageView.bounds.size.height/2);
+        
+        [attentionBtn setFrame:CGRectMake(0, 0, attentionLabel.frame.origin.x+attentionLabel.bounds.size.width+leftAttentionOffset, btnHeight)];
+        
+        [listAttentionView setFrame:CGRectMake(commentBottomView.bounds.size.width-btnWidth, 0, btnWidth, btnHeight)];
+        listAttentionView.layer.borderWidth = 1;
+        listAttentionView.layer.cornerRadius = 10;
 
         
     } else if ([dynamic.dynamicCategoryID intValue] == 3 || ([dynamic.dynamicCategoryID intValue] == 0 && [dynamic.dynamicTransmitCategoryID intValue] == 3)) {
+    //引用书评
+        [appointBookView setHidden:NO];
         
-        [dynamicAppointBookView setHidden:NO];
-        [dynamicTitleLabel setHidden:YES];
-        //书评
-        //评论
-        //        [dynamicTitleLabel setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicUserNameLabel.frame.origin.y+dynamicUserNameLabel.bounds.size.height+10, DEVICE_AVALIABLE_WIDTH-30-50-15, 21.f)];
-        [dynamicContentLabel setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicUserNameLabel.frame.origin.y+dynamicUserNameLabel.bounds.size.height+5, DEVICE_AVALIABLE_WIDTH-30-50-15, 21.f)];
-        //        if (![Utility isBlankString:dynamic.dynamicTitle]) {
-        //            dynamicTitleLabel.text = dynamic.dynamicTitle;
-        //        }
+        [titleLabel setHidden:YES];
+        
+        [contentLabel setFrame:CGRectMake(userNameLabel.frame.origin.x, userNameLabel.frame.origin.y+userNameLabel.bounds.size.height+1, DEVICE_AVALIABLE_WIDTH-borderWidth*2-avatarWidth-avatarNameSpace, 21.f)];
+     
         if (![Utility isBlankString:dynamic.dynamicContent]) {
-            dynamicContentLabel.text = dynamic.dynamicContent;
-            dynamicContentLabel.numberOfLines = 0;
-            dynamicContentLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
-            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:dynamicContentLabel.bounds.size.width withLabelFont:17.f];
-            [dynamicContentLabel setFrame:CGRectMake(dynamicContentLabel.frame.origin.x, dynamicContentLabel.frame.origin.y, dynamicContentLabel.bounds.size.width, MIN(42.f, contentLabelHeight))];
+            
+            contentLabel.text = dynamic.dynamicContent;
+            contentLabel.numberOfLines = 0;
+            contentLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
+            contentLabel.font = [UIFont systemFontOfSize:14.f];
+            contentLabel.textColor = [UIColor blackColor];
+            CGFloat contentLabelHeight = [Utility heightForLabel:dynamic.dynamicContent constrsize:contentLabel.bounds.size.width withLabelFont:14.f];
+            [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, contentLabel.bounds.size.width, MIN(14.f*2+6, contentLabelHeight))];
         }
         
         //引用的书
-        [dynamicAppointBookView setFrame:CGRectMake(dynamicContentLabel.frame.origin.x, dynamicContentLabel.frame.origin.y+dynamicContentLabel.bounds.size.height + 10, dynamicContentLabel.bounds.size.width, 95.f)];
-        [dynamicBookImageView setFrame:CGRectMake(15, 15, 55, 75)];
-        [dynamicBookNameLabel setFrame:CGRectMake(dynamicBookImageView.frame.origin.x+dynamicBookImageView.bounds.size.width+15.f, dynamicBookImageView.frame.origin.y+5, dynamicAppointBookView.bounds.size.width - 35 -(dynamicBookImageView.frame.origin.x+dynamicBookImageView.bounds.size.width+15.f), 21.f)];
-        [dynamicBookInfoLabel setFrame:CGRectMake(dynamicBookNameLabel.frame.origin.x, dynamicBookNameLabel.frame.origin.y+dynamicBookNameLabel.bounds.size.height+10, 60, 21.f)];
+        [appointBookView setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y+contentLabel.bounds.size.height + 10, contentLabel.bounds.size.width, 65.f)];
+        
+        [bookImageView setFrame:CGRectMake(10, 10, bookImageWidth, bookImageHeight)];
+        [bookImageView setImage:ImageNamed(@"icon.png")];
+        
+        [bookNameLabel setFrame:CGRectMake(bookImageView.frame.origin.x+bookImageView.bounds.size.width+4, bookImageView.frame.origin.y+2, appointBookView.bounds.size.width - 35 -(bookImageView.frame.origin.x+bookImageView.bounds.size.width+15.f), 21.f)];
+        
+        [bookInfoLabel setFrame:CGRectMake(bookNameLabel.frame.origin.x, bookNameLabel.frame.origin.y+bookNameLabel.bounds.size.height, 60, 21.f)];
       
-        [dynamicBookScoreImageView setFrame:CGRectMake(dynamicBookInfoLabel.frame.origin.x+dynamicBookInfoLabel.bounds.size.width, dynamicBookInfoLabel.frame.origin.y+(dynamicBookInfoLabel.bounds.size.height / 2 - 10 / 2), 66, 10)];
-        [dynamicBookScoreImageView setImage:[Utility createScoreImage:[dynamic.dynamicAppointBook.bookScore intValue]]];
+        [bookScoreImageView setFrame:CGRectMake(bookInfoLabel.frame.origin.x+bookInfoLabel.bounds.size.width, bookInfoLabel.frame.origin.y+(bookInfoLabel.bounds.size.height / 2 - 10 / 2), 66, 10)];
+        [bookScoreImageView setImage:[Utility createScoreImage:[dynamic.dynamicAppointBook.bookScore intValue]]];
         
         if (dynamic.dynamicAppointBook && ![Utility isBlankString:dynamic.dynamicAppointBook.bookName]) {
-            dynamicBookNameLabel.text = dynamic.dynamicAppointBook.bookName;
-//            dynamicBookInfoLabel.text = [NSString stringWithFormat:@"%@ | %@ | %@",dynamic.dynamicAppointBook.bookAuthor,dynamic.dynamicAppointBook.bookCategory,dynamic.dynamicAppointBook.bookWordNum];
-            dynamicBookInfoLabel.text = @"楼主打分:";
+            
+            bookNameLabel.text = dynamic.dynamicAppointBook.bookName;
+            
+            bookInfoLabel.text = @"楼主打分:";
         }
         
-        [commentBottomView setFrame:CGRectMake(dynamicUserNameLabel.frame.origin.x, dynamicAppointBookView.frame.origin.y+dynamicAppointBookView.bounds.size.height+15.f, dynamicContentLabel.bounds.size.width, BTN_HEIGHT)];
+        [commentBottomView setFrame:CGRectMake(userNameLabel.frame.origin.x, appointBookView.frame.origin.y+appointBookView.bounds.size.height+14.f, contentLabel.bounds.size.width, btnHeight)];
         
-        /*  评论 */
+        /* 评论 */
         if (![Utility isBlankString:dynamic.dynamicCommentNum]) {
-            dynamicCommentNumLabel.text = dynamic.dynamicCommentNum;
+            commentNumLabel.text = dynamic.dynamicCommentNum;
         } else {
-            dynamicCommentNumLabel.text = @"评论";
+            commentNumLabel.text = @"评论";
         }
-        [dynamicCommentImageView setImage:ImageNamed(@"评论.png")];
         
-        CGFloat commentNumWidth = [Utility widthForLabel:dynamic.dynamicCommentNum constrsize:21.f widthLabelFont:15.f];
-        CGFloat leftOffset = (BTN_WIDTH-IMAGEWIDTH-SPACEWIDTH-commentNumWidth)/2;
-        [dynamicCommentImageView setFrame:CGRectMake(leftOffset, BTN_HEIGHT/2 - IMAGEHEIGHT/2, IMAGEWIDTH, IMAGEHEIGHT)];
-        [dynamicCommentNumLabel setFrame:CGRectMake(dynamicCommentImageView.frame.origin.x+dynamicCommentImageView.bounds.size.width+SPACEWIDTH, 3, commentNumWidth, 21.f)];
-        dynamicCommentNumLabel.center = CGPointMake(dynamicCommentNumLabel.frame.origin.x+dynamicCommentNumLabel.bounds.size.width/2, dynamicCommentImageView.frame.origin.y+dynamicCommentImageView.bounds.size.height/2);
-        [dynamicCommentBtn setFrame:CGRectMake(0, 0, dynamicCommentNumLabel.frame.origin.x+dynamicCommentNumLabel.bounds.size.width+leftOffset, 21.f)];
-        [dynamicListCommentView setFrame:CGRectMake(0, 0, BTN_WIDTH, BTN_HEIGHT)];
-        dynamicListCommentView.layer.borderWidth = 1;
-        dynamicListCommentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicListCommentView.layer.cornerRadius = 12.f;
+        [commentImageView setImage:ImageNamed(@"评论.png")];
         
+        CGFloat commentNumWidth = [Utility widthForLabel:dynamic.dynamicCommentNum constrsize:21.f widthLabelFont:12];
+        
+        CGFloat leftOffset = (btnWidth-imageWidth-spaceWidth-commentNumWidth)/2;
+        [commentImageView setFrame:CGRectMake(leftOffset, btnHeight/2 - imageHeight/2, imageWidth, imageHeight)];
+        
+        [commentNumLabel setFrame:CGRectMake(commentImageView.frame.origin.x+commentImageView.bounds.size.width+spaceWidth, 3, commentNumWidth, 21.f)];
+        commentNumLabel.center = CGPointMake(commentNumLabel.frame.origin.x+commentNumLabel.bounds.size.width/2, commentImageView.frame.origin.y+commentImageView.bounds.size.height/2);
+        
+        [commentBtn setFrame:CGRectMake(0, 0, commentNumLabel.frame.origin.x+commentNumLabel.bounds.size.width+leftOffset, 21.f)];
+        
+        [listCommentView setFrame:CGRectMake(0, 0, btnWidth, btnHeight)];
+        listCommentView.layer.borderWidth = 1;
+        listCommentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        listCommentView.layer.cornerRadius = 10;
         
         /* 转发 */
         if (![Utility isBlankString:dynamic.dynamicTransmitNum]) {
-            dynamicTransmitNumLabel.text = dynamic.dynamicTransmitNum;
+            transmitNumLabel.text = dynamic.dynamicTransmitNum;
         } else {
-            dynamicTransmitNumLabel.text = @"转发";
+            transmitNumLabel.text = @"转发";
         }
         
-        [dynamicTransmitImageView setImage:ImageNamed(@"转发.png")];
-        CGFloat transmitNumWidth = [Utility widthForLabel:dynamic.dynamicTransmitNum constrsize:21.f widthLabelFont:15.f];
-        CGFloat leftTansmitOffset = (BTN_WIDTH-IMAGEWIDTH-SPACEWIDTH-transmitNumWidth)/2;
-        [dynamicTransmitImageView setFrame:CGRectMake(leftTansmitOffset, BTN_HEIGHT/2-IMAGEHEIGHT/2, IMAGEWIDTH, IMAGEHEIGHT)];
-        [dynamicTransmitNumLabel setFrame:CGRectMake(dynamicTransmitImageView.frame.origin.x+dynamicTransmitImageView.bounds.size.width+SPACEWIDTH, 3, transmitNumWidth, 21.f)];
-        dynamicTransmitNumLabel.center = CGPointMake(dynamicTransmitNumLabel.frame.origin.x+dynamicTransmitNumLabel.bounds.size.width/2, dynamicTransmitImageView.frame.origin.y+dynamicTransmitImageView.bounds.size.height/2);
-        [dynamicTransmitBtn setFrame:CGRectMake(0, 0, dynamicTransmitNumLabel.frame.origin.x+dynamicTransmitNumLabel.bounds.size.width+leftTansmitOffset, BTN_HEIGHT)];
-        [dynamicListTransmitView setFrame:CGRectMake(dynamicListCommentView.frame.origin.x+dynamicListCommentView.bounds.size.width+15.f, 0, BTN_WIDTH, BTN_HEIGHT)];
-        dynamicListTransmitView.layer.borderWidth = 1;
-        dynamicListTransmitView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        dynamicListTransmitView.layer.cornerRadius = 12.f;
+        [transmitImageView setImage:ImageNamed(@"转发.png")];
+        
+        CGFloat transmitNumWidth = [Utility widthForLabel:dynamic.dynamicTransmitNum constrsize:21.f widthLabelFont:12];
+        CGFloat leftTansmitOffset = (btnWidth-imageWidth-spaceWidth-transmitNumWidth)/2;
+        
+        [transmitImageView setFrame:CGRectMake(leftTansmitOffset, btnHeight/2-imageHeight/2, imageWidth, imageHeight)];
+        
+        [transmitNumLabel setFrame:CGRectMake(transmitImageView.frame.origin.x+transmitImageView.bounds.size.width+spaceWidth, 3, transmitNumWidth, 21.f)];
+        transmitNumLabel.center = CGPointMake(transmitNumLabel.frame.origin.x+transmitNumLabel.bounds.size.width/2, transmitImageView.frame.origin.y+transmitImageView.bounds.size.height/2);
+        
+        [transmitBtn setFrame:CGRectMake(0, 0, transmitNumLabel.frame.origin.x+transmitNumLabel.bounds.size.width+leftTansmitOffset, btnHeight)];
+        
+        [listTransmitView setFrame:CGRectMake(listCommentView.frame.origin.x+listCommentView.bounds.size.width+15.f, 0, btnWidth, btnHeight)];
+        listTransmitView.layer.borderWidth = 1;
+        listTransmitView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        listTransmitView.layer.cornerRadius = 10;
+        
+        //关注 （或者删除）
+        if (dynamic.isMySelf) {
+            attentionLabel.text = @"删除";
+            attentionLabel.textColor = RGBCOLOR(178, 178, 178);
+            
+            listAttentionView.layer.borderColor = RGBCOLOR(178, 178, 178).CGColor;
+            
+        } else {
+            if (dynamic.isAttention) {
+                
+                attentionLabel.text = @"已关注";
+                attentionLabel.textColor = RGBCOLOR(167, 10, 10);
+                
+                [attentionImageView setImage:ImageNamed(@"已关注.png")];
+                
+                listAttentionView.layer.borderColor = RGBCOLOR(167, 10, 10).CGColor;
+                
+            } else {
+                
+                attentionLabel.text = @"关注";
+                attentionLabel.textColor = RGBCOLOR(178, 178, 178);
+                
+                [attentionImageView setImage:ImageNamed(@"关注.png")];
+                
+                listAttentionView.layer.borderColor = RGBCOLOR(178, 178, 178).CGColor;
+            }
+        }
+        
+        CGFloat attentionWidth = [Utility widthForLabel:attentionLabel.text constrsize:21.f widthLabelFont:12.f];
+        CGFloat leftAttentionOffset = (btnWidth-imageWidth-spaceWidth-attentionWidth)/2;
+        
+        [attentionImageView setFrame:CGRectMake(leftAttentionOffset, btnHeight/2-imageHeight/2, imageWidth, imageHeight)];
+        
+        [attentionLabel setFrame:CGRectMake(attentionImageView.frame.origin.x+attentionImageView.bounds.size.width+spaceWidth, 3, attentionWidth, 21.f)];
+        attentionLabel.center = CGPointMake(attentionLabel.frame.origin.x+attentionLabel.bounds.size.width/2, attentionImageView.frame.origin.y+attentionImageView.bounds.size.height/2);
+        
+        [attentionBtn setFrame:CGRectMake(0, 0, attentionLabel.frame.origin.x+attentionLabel.bounds.size.width+leftAttentionOffset, btnHeight)];
+        
+        [listAttentionView setFrame:CGRectMake(commentBottomView.bounds.size.width-btnWidth, 0, btnWidth, btnHeight)];
+        listAttentionView.layer.borderWidth = 1;
+        listAttentionView.layer.cornerRadius = 10;
     }
-    
-    
 }
 
 @end

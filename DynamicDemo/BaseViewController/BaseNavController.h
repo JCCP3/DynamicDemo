@@ -11,6 +11,6 @@
 
 @interface BaseNavController : UINavigationController<UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
-@property (nonatomic, assign)BOOL enableBackGesture;
+@property (nonatomic, assign) BOOL enableBackGesture;
 
 @end

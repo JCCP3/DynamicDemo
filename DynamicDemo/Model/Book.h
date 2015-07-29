@@ -10,13 +10,13 @@
 
 @interface Book : NSObject
 
-@property (nonatomic ,strong)NSString *bookID;
-@property (nonatomic ,strong)NSString *bookName;
-@property (nonatomic ,strong)NSString *bookAuthor;
-@property (nonatomic ,strong)NSString *bookCategory;
-@property (nonatomic ,strong)NSString *bookWordNum;//字数
-@property (nonatomic ,strong)NSString *bookImage; //书本图片
-@property (nonatomic ,strong)NSString *bookScore; //评分
+@property (nonatomic, strong) NSString *bookID;
+@property (nonatomic, strong) NSString *bookName;
+@property (nonatomic, strong) NSString *bookAuthor;
+@property (nonatomic, strong) NSString *bookCategory;
+@property (nonatomic, strong) NSString *bookWordNum;//字数
+@property (nonatomic, strong) NSString *bookImage; //书本图片
+@property (nonatomic, strong) NSString *bookScore; //评分
 
 - (id)initWithDictionary:(NSDictionary *)jsonObject;
 
