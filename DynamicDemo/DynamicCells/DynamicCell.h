@@ -9,7 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "Dynamic.h"
 
+@protocol DynamicCellDelegate <NSObject>
+
+- (void)dynamicCellOnClickComment:(Dynamic *)dynamic;
+
+- (void)dynamicCellOnClickTransmit:(Dynamic *)dynamic;
+
+- (void)dynamicCellOnClickAttention:(Dynamic *)dynamic;
+
+@end
+
 @interface DynamicCell : UITableViewCell
+
+@property (nonatomic, assign) int segmentControlState;
+@property (nonatomic, assign) BOOL isShowPersonalHomePage;
+@property (nonatomic, assign)id<DynamicCellDelegate> delegate;
 
 - (void)loadDynamicCellData:(Dynamic *)dynamic;
 
