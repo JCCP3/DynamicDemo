@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "BaseViewController.h"
+#import "DynamicCell.h"
 
-@interface DynamicViewController : BaseViewController<UITableViewDelegate,UITableViewDataSource>
+@interface DynamicViewController : BaseViewController<UITableViewDelegate,UITableViewDataSource,DynamicCellDelegate>
+
+@property (nonatomic, assign) BOOL isShowPersonalHomePage; //是否展示别人的个人主页
 
 @end

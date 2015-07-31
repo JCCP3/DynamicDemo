@@ -19,6 +19,7 @@ typedef enum {
 
 @property (nonatomic ,strong)UIView *shadowView;
 
+
 //添加阴影遮罩层
 - (void)addShadowView;
 
